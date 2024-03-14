@@ -13,6 +13,17 @@ internal class CustomList<T> : ICustomList<T>, IEnumerable
         {
             return _items[index];
         }
+        set
+        {
+            if (index < _size)
+            {
+                _items[index] = value;
+            }
+            else
+            {
+                throw new IndexOutOfRangeException();
+            }
+        }
     }
 
     public int Count
@@ -34,14 +45,12 @@ internal class CustomList<T> : ICustomList<T>, IEnumerable
         _items[index] = item;
     }
 
-    public CustomListEnumerator<T> GetEnumerator()
+    public IEnumerator GetEnumerator()
     {
-        return new CustomListEnumerator<T>(_items, _size);
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
+        for(var i = 0; i < _size; i++)
+        {
+            yield return _items[i];
+        }
     }
 
     private void ResizeArray()
